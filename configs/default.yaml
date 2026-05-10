@@ -1,0 +1,45 @@
+# ShieldAgent Configuration
+# Default configuration for experiments
+
+llm:
+  provider: openrouter
+  model: openrouter/free
+  temperature: 0.7
+  max_tokens: 4096
+  timeout: 60.0
+
+sanitizer:
+  enabled: true
+  block_on_detection: true
+  custom_patterns: []
+  whitelist_patterns: []
+
+anomaly_detector:
+  enabled: true
+  threshold: 0.5
+  hidden_dim: 64
+  num_layers: 3
+  use_pretrained: false
+
+intent_verifier:
+  enabled: true
+  model_name: all-MiniLM-L6-v2
+  similarity_threshold: 0.75
+  cache_embeddings: true
+
+sandbox:
+  enabled: true
+  use_docker: false
+  timeout_seconds: 30.0
+  max_memory_mb: 512
+  network_disabled: true
+  rollback_on_error: true
+
+logging:
+  level: INFO
+  log_file: null
+  rotation: "10 MB"
+
+# General settings
+fail_closed: true
+collect_metrics: true

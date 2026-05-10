@@ -1,0 +1,91 @@
+# ShieldAgent Attack Pattern Library
+# Known attack patterns for rule-based detection
+
+tool_chain_patterns:
+  # Data Exfiltration
+  - name: file_to_http
+    sequence: ["file_read", "http_request"]
+    attack_type: data_exfiltration
+    severity: high
+    description: Reading files and sending contents to external server
+
+  - name: file_to_email
+    sequence: ["file_read", "email_send"]
+    attack_type: data_exfiltration
+    severity: high
+    description: Reading files and exfiltrating via email
+
+  - name: db_to_http
+    sequence: ["db_query", "http_request"]
+    attack_type: data_exfiltration
+    severity: critical
+    description: Querying database and sending to external server
+
+  - name: env_to_http
+    sequence: ["env_read", "http_request"]
+    attack_type: credential_exfiltration
+    severity: critical
+    description: Reading environment variables and exfiltrating
+
+  # Remote Code Execution
+  - name: web_to_execute
+    sequence: ["web_fetch", "code_execute"]
+    attack_type: remote_code_execution
+    severity: critical
+    description: Fetching remote code and executing it
+
+  - name: web_to_shell
+    sequence: ["web_fetch", "shell_execute"]
+    attack_type: remote_code_execution
+    severity: critical
+    description: Fetching remote commands and executing in shell
+
+  # Config Manipulation
+  - name: read_modify_config
+    sequence: ["file_read", "file_write"]
+    attack_type: config_manipulation
+    severity: high
+    description: Reading and modifying configuration files
+
+  - name: list_delete
+    sequence: ["file_list", "file_delete"]
+    attack_type: data_destruction
+    severity: critical
+    description: Listing and deleting files
+
+prompt_injection_patterns:
+  - name: ignore_instructions
+    pattern: "ignore\\s+(all\\s+)?(previous|prior|above)\\s+(instructions?|prompts?|context)"
+    severity: critical
+
+  - name: disregard_context
+    pattern: "disregard\\s+(all\\s+)?(previous|prior|everything)"
+    severity: critical
+
+  - name: role_switching
+    pattern: "(you\\s+are\\s+now|act\\s+as|pretend\\s+to\\s+be)"
+    severity: high
+
+  - name: chatml_tokens
+    pattern: "<\\|im_start\\|>|<\\|im_end\\|>"
+    severity: critical
+
+  - name: llama_tokens
+    pattern: "\\[INST\\]|\\[/INST\\]"
+    severity: critical
+
+dangerous_commands:
+  - pattern: "rm\\s+-rf"
+    severity: critical
+
+  - pattern: "curl.*\\|.*bash"
+    severity: critical
+
+  - pattern: "wget.*\\|.*sh"
+    severity: critical
+
+  - pattern: "eval\\s*\\("
+    severity: high
+
+  - pattern: "exec\\s*\\("
+    severity: high

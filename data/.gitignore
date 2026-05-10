@@ -1,0 +1,9 @@
+# Generated benchmark datasets
+/attacks/
+/benign/
+
+# Keep module docs and rules
+!README.md
+!.gitignore
+!samples/
+!samples/**

@@ -1,0 +1,22 @@
+* text=auto eol=lf
+
+*.py text diff=python
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Jupyter notebooks and JSON
+*.ipynb text
+*.json text
+
+# Documents
+*.md text
+*.tex text diff=tex
+
+# Binaries
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ckpt binary
+*.pt binary
+*.h5 binary
