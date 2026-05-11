@@ -1,9 +1,20 @@
-# --- Python ---
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
+.pytest_cache*/
+.pytest_history/
+.ruff_cache/
+.mypy_cache/
+.cache/
+.pyre/
+.pytype/
+.pyright/
+.hypothesis/
+docs/_build/
 
-# --- Distribution / Packaging ---
+# Python packaging and build outputs
 .Python
 build/
 develop-eggs/
@@ -17,88 +28,112 @@ lib64/
 parts/
 sdist/
 var/
+*.egg-info/
+*.egg
+.installed.cfg
+pip-wheel-metadata/
 wheels/
 share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
 MANIFEST
 
-# --- Virtual Environments ---
+# Virtual environments and local package caches
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+__pypackages__/
+.uv-cache/
+
+# Environment files and local configuration
 .env
 .env.*
 !.env.example
 !.env.sample
 .envrc
 .direnv/
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+*.local.yaml
+*.local.yml
+*.local.json
+config.local.*
+configs/local.*
+configs/private.*
+configs/secrets.*
 
-# --- Unit Test / Coverage ---
+# Secrets, credentials, and local account configuration
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+*.keystore
+*.ppk
+.pypirc
+.netrc
+.git-credentials
+.npmrc
+.docker/config.json
+.ssh/
+.aws/
+.azure/
+.gcp/
+.kube/
+secrets.*
+credentials.*
+*secret*
+*credentials*
+id_rsa
+id_ed25519
+*.mobileprovision
+
+# Test, coverage, and profiling output
 htmlcov/
 .tox/
 .nox/
 .coverage
 .coverage.*
-.cache
-nosetests.xml
 coverage.xml
+nosetests.xml
 *.cover
 *.py,cover
-.hypothesis/
-.pytest_cache/
-.pytest_cache*/
-.pytest_history/
 cover/
+.benchmarks/
+.memray/
+*.prof
+*.profile
 
-# --- Type Checking ---
-.mypy_cache/
-.dmypy.json
-dmypy.json
-.pyright/
-.pyre/
-.pytype/
-.ruff_cache/
+# Generated benchmark datasets and private data
+data/attacks/
+data/benign/
+data/generated/
+data/generated_*/
+data/raw/
+data/processed/
+data/private/
+data/confidential/
+!data/README.md
+!data/samples/
+!data/samples/**
 
-# --- Documentation ---
-docs/_build/
-
-# --- IDE / Editor (Module Level Redundancy) ---
-.vscode/
-.idea/
-.cursor/
-.zed/
-*.code-workspace
-*.swp
-*.swo
-.fleet/
-
-# --- Jupyter Notebooks ---
-.ipynb_checkpoints
-*-checkpoint.ipynb
-.jupyter/
-
-# --- OS / Filesystem ---
-.DS_Store
-**/.DS_Store
-._*
-.Spotlight-V100/
-.Trashes/
-.fseventsd/
-Thumbs.db
-Desktop.ini
-
-# --- Machine Learning / Data Science ---
-wandb/
-.wandb/
-mlruns/
+# Experiment results and model artifacts
+results/
+outputs/
+artifacts/
+benchmark_outputs/
+benchmark_results/
+reports/generated/
+logs/
+*.log
+*.log.*
+celerybeat-schedule
+celerybeat.pid
 models/
 checkpoints/
 runs/
+wandb/
+.wandb/
+mlruns/
 *.ckpt
 *.pt
 *.pth
@@ -114,95 +149,20 @@ model.safetensors
 *.parquet
 *.feather
 
-# --- Generated Datasets (can regenerate with scripts/generate_attacks.py) ---
-data/attacks/
-data/benign/
-data/generated/
-data/generated_*/
-data/raw/
-data/processed/
-data/private/
-data/confidential/
-# Keep data README
-!data/README.md
-!data/samples/
-!data/samples/**
-
-# --- Experiment Results ---
-results/
-outputs/
-artifacts/
-benchmark_outputs/
-benchmark_results/
-reports/generated/
-
-# --- Experiment / Logs ---
-logs/
-*.log
-*.log.*
-celerybeat-schedule
-celerybeat.pid
-
-# --- Specific to ShieldAgent ---
-# Sensitive or local config
-.env.local
-.env.test
-*.local.yaml
-*.local.yml
-*.local.json
-configs/local.*
-configs/private.*
-configs/secrets.*
-# Keep .env.example
-!.env.example
-!.env.sample
-
-# --- Secrets / Credentials ---
-*.pem
-*.key
-*.crt
-*.p12
-*.jks
-*.keystore
-.pypirc
-.netrc
-.git-credentials
-.npmrc
-.docker/config.json
-.ssh/
-.aws/
-.azure/
-.gcp/
-.kube/
+# Local databases and state files
 *.sqlite
 *.sqlite3
 *.db
 *.db-journal
 *.db-wal
 *.db-shm
-secrets.*
-credentials.*
-*secret*
-*credentials*
-id_rsa
-id_ed25519
-*.mobileprovision
 
-# --- Python Tooling Caches ---
-.ruff_cache/
-.pyre/
-.pytype/
+# Public artifact boundary: do not publish submission/admin material here
+paper/
+AfterSubmissionDocs/
+*.pdf
 
-# --- Temporary ---
-tmp/
-temp/
-.tmp/
-.temp/
-*.swp
-*.swo
-*.part
-
-# --- LaTeX (for paper/ directory) ---
+# LaTeX intermediates, if local paper material is ever generated
 *.aux
 *.bbl
 *.blg
@@ -212,25 +172,39 @@ temp/
 *.toc
 *.fdb_latexmk
 missfont.log
-# Do not publish paper/CMT material from this artifact repo.
-paper/
-AfterSubmissionDocs/
-*.pdf
+_minted-*/
 
-# --- Added by Hygiene Check ---
-# Universal extras
-*~
-*.sublime-*
-nbproject/
-.metals/
-.bloop/
-*.env
-config.local.*
-*.ppk
+# IDE/editor, notebook, and OS files
+.vscode/
+.idea/
+.cursor/
+.zed/
+.fleet/
+*.code-workspace
+*.swp
+*.swo
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+.jupyter/
+.DS_Store
+**/.DS_Store
+._*
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+Thumbs.db
+Desktop.ini
+
+# Temporary files and local archives
+tmp/
+temp/
+.tmp/
+.temp/
 *.tmp
 *.bak
 *.backup
 *.orig
+*.part
 out/
 bin/
 obj/
@@ -248,8 +222,5 @@ archives/
 *.7z
 *.rar
 
-# LaTeX extras
-_minted-*/
-
-# Docker extras
+# Docker local overrides
 docker-compose.override.yml
