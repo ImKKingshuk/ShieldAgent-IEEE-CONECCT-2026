@@ -17,6 +17,7 @@ This repository is the public artifact for the IEEE CONECCT 2026 paper:
 - Dataset-generation scripts for representative attack and benign scenarios.
 - Import adapters for supplemental public-benchmark stress checks using AgentDojo
   and ShieldLM.
+- Optional same-split ProtectAI prompt-injection classifier baseline runner.
 - Released GNN anomaly-detector weights in `models/shieldagent_gnn.pt`.
 - Unit tests for the core defense modules.
 - Reproducibility instructions using `uv`.
@@ -58,6 +59,7 @@ uv run python scripts/generate_attacks.py --output data/generated --samples 2 --
 uv run python scripts/run_experiments.py benchmark --attacks data/generated/attacks --benign data/generated/benign
 uv run --with agentdojo python scripts/import_agentdojo.py --output data/external/agentdojo
 uv run --with datasets python scripts/import_shieldlm.py --output data/external/shieldlm
+uv run --with transformers --with torch python scripts/run_protectai_baseline.py --attacks data/external/agentdojo/attacks --benign data/external/agentdojo/benign
 ```
 
 ## Project Structure

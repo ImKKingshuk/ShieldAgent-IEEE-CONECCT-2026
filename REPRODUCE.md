@@ -80,6 +80,18 @@ asyncio.run(run_benchmark(config))
 PY
 ```
 
+For a same-split public classifier baseline on the converted samples:
+
+```bash
+uv run --with transformers --with torch python scripts/run_protectai_baseline.py \
+  --attacks data/external/agentdojo/attacks \
+  --benign data/external/agentdojo/benign \
+  --output results/protectai_agentdojo.json
+```
+
+The ProtectAI baseline scans concatenated tool-response text only. It does not
+model action-chain anomaly detection, intent verification, or sandbox policy.
+
 ## Optional LLM-Backed Runs
 
 LLM-backed validation runs require your own API key. Copy `.env.example` to `.env` and set the relevant provider key.

@@ -13,6 +13,7 @@ The artifact is designed to support independent inspection of the implementation
 - `scripts/generate_attacks.py`: generator for synthetic attack and benign tool-use scenarios.
 - `scripts/import_agentdojo.py`: imports AgentDojo task and injection goals into a compact ShieldAgent stress-test set.
 - `scripts/import_shieldlm.py`: imports a balanced ShieldLM prompt-injection subset for supplemental sanitizer evaluation.
+- `scripts/run_protectai_baseline.py`: optional same-split baseline using ProtectAI's public prompt-injection classifier.
 - `scripts/run_experiments.py`: benchmark and ablation runner.
 - `models/shieldagent_gnn.pt`: released pretrained anomaly-detector weights.
 - `tests/`: unit tests for the core components.
