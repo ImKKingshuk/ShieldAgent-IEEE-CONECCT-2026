@@ -15,6 +15,9 @@ This repository is the public artifact for the IEEE CONECCT 2026 paper:
   - sandboxed execution
 - MCP client/server integration wrappers.
 - Dataset-generation scripts for representative attack and benign scenarios.
+- Import adapters for supplemental public-benchmark stress checks using AgentDojo
+  and ShieldLM.
+- Released GNN anomaly-detector weights in `models/shieldagent_gnn.pt`.
 - Unit tests for the core defense modules.
 - Reproducibility instructions using `uv`.
 - A small representative sample dataset in `data/samples/`.
@@ -27,9 +30,9 @@ The repository does not include:
 - API keys or private environment files.
 - Generated experiment results.
 - Conference submission files, review exports, or camera-ready administration documents.
-- Frozen benchmark snapshots or pretrained model artifacts, unless distributed through a separate tagged release.
+- Frozen benchmark snapshots.
 
-The repository is intended to support inspection, local testing, and benchmark-style regeneration. Exact reproduction of paper-level aggregate metrics may require the frozen benchmark snapshot and model artifacts associated with a specific release.
+The repository is intended to support inspection, local testing, benchmark-style regeneration, and supplemental checks on public prompt-injection corpora. Exact reproduction of paper-level aggregate metrics may require the frozen benchmark snapshot associated with a specific release.
 
 ## Installation
 
@@ -53,6 +56,8 @@ The deterministic tests and benchmark paths do not require an API key.
 uv run pytest tests/ -v
 uv run python scripts/generate_attacks.py --output data/generated --samples 2 --benign 4 --seed 1043
 uv run python scripts/run_experiments.py benchmark --attacks data/generated/attacks --benign data/generated/benign
+uv run --with agentdojo python scripts/import_agentdojo.py --output data/external/agentdojo
+uv run --with datasets python scripts/import_shieldlm.py --output data/external/shieldlm
 ```
 
 ## Project Structure

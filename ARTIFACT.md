@@ -11,7 +11,10 @@ The artifact is designed to support independent inspection of the implementation
 - `src/shieldagent/`: implementation of the ShieldAgent orchestration layer and defense modules.
 - `configs/attack_patterns.yaml`: pattern definitions used by the tool-response sanitizer.
 - `scripts/generate_attacks.py`: generator for synthetic attack and benign tool-use scenarios.
+- `scripts/import_agentdojo.py`: imports AgentDojo task and injection goals into a compact ShieldAgent stress-test set.
+- `scripts/import_shieldlm.py`: imports a balanced ShieldLM prompt-injection subset for supplemental sanitizer evaluation.
 - `scripts/run_experiments.py`: benchmark and ablation runner.
+- `models/shieldagent_gnn.pt`: released pretrained anomaly-detector weights.
 - `tests/`: unit tests for the core components.
 - `data/samples/`: compact representative samples for inspection and pipeline validation.
 - `REPRODUCE.md`: setup and execution instructions.
@@ -19,7 +22,7 @@ The artifact is designed to support independent inspection of the implementation
 
 ## Reproducibility Scope
 
-The repository supports deterministic unit testing and local generation of benchmark-style datasets. Exact reproduction of paper-level aggregate metrics may require a frozen benchmark snapshot, the same runtime configuration, and pretrained anomaly-detection artifacts associated with a specific release.
+The repository supports deterministic unit testing, local generation of benchmark-style datasets, reuse of released GNN weights, and supplemental public-benchmark stress checks. Exact reproduction of paper-level aggregate metrics may require a frozen benchmark snapshot and the same runtime configuration associated with a specific release.
 
 No private submission documents, review files, real credentials, API keys, or personal data are included in this artifact.
 

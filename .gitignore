@@ -110,6 +110,7 @@ data/generated/
 data/generated_*/
 data/raw/
 data/processed/
+data/external/
 data/private/
 data/confidential/
 !data/README.md
@@ -129,6 +130,9 @@ logs/
 celerybeat-schedule
 celerybeat.pid
 models/
+!models/
+!models/README.md
+!models/shieldagent_gnn.pt
 checkpoints/
 runs/
 wandb/
@@ -136,6 +140,7 @@ wandb/
 mlruns/
 *.ckpt
 *.pt
+!models/shieldagent_gnn.pt
 *.pth
 *.h5
 *.onnx

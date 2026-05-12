@@ -112,6 +112,14 @@ class ShieldAgentConfig:
         # Get provider and model from environment
         provider = os.getenv("LLM_PROVIDER", "openrouter")
         model = os.getenv("DEFAULT_MODEL", "meta-llama/llama-3.1-70b-instruct")
+        anomaly_model_path = os.getenv("ANOMALY_MODEL_PATH")
+        if anomaly_model_path:
+            resolved_anomaly_model_path = Path(anomaly_model_path)
+        else:
+            default_anomaly_model_path = Path("models/shieldagent_gnn.pt")
+            resolved_anomaly_model_path = (
+                default_anomaly_model_path if default_anomaly_model_path.exists() else None
+            )
         
         # Load provider-specific API key
         provider_key_map = {
@@ -135,7 +143,7 @@ class ShieldAgentConfig:
             anomaly_detector=AnomalyDetectorConfig(
                 enabled=os.getenv("ANOMALY_DETECTION_ENABLED", "true").lower() == "true",
                 threshold=float(os.getenv("ANOMALY_SCORE_THRESHOLD", "0.5")),
-                model_path=Path(os.getenv("ANOMALY_MODEL_PATH")) if os.getenv("ANOMALY_MODEL_PATH") else None,
+                model_path=resolved_anomaly_model_path,
             ),
             intent_verifier=IntentVerifierConfig(
                 enabled=os.getenv("INTENT_VERIFICATION_ENABLED", "true").lower() == "true",
