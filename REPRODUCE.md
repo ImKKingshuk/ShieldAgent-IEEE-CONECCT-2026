@@ -92,6 +92,27 @@ uv run --with transformers --with torch python scripts/run_protectai_baseline.py
 The ProtectAI baseline scans concatenated tool-response text only. It does not
 model action-chain anomaly detection, intent verification, or sandbox policy.
 
+## Adaptive-Evasion Stress Check
+
+The sanitizer includes normalization for common deterministic evasion patterns,
+including zero-width characters, simple homoglyph substitutions, and
+separator-obfuscated security keywords. To run a supplemental sanitizer-only
+stress check over generated or imported attack samples:
+
+```bash
+uv run python scripts/run_adaptive_stress.py \
+  --attacks data/generated/attacks \
+  --benign data/generated/benign \
+  --output results/adaptive_stress.json
+```
+
+This harness mutates known attack samples with deterministic obfuscations and
+reports both raw per-mutation detection rates and retention among samples that
+the sanitizer detects before mutation. The retention view is useful because some
+benchmark samples are intentionally handled by other ShieldAgent layers rather
+than by sanitizer patterns. This is not a substitute for a full adaptive human
+red-team or operational trace evaluation.
+
 ## Optional LLM-Backed Runs
 
 LLM-backed validation runs require your own API key. Copy `.env.example` to `.env` and set the relevant provider key.
@@ -102,4 +123,4 @@ uv run python scripts/run_experiments.py benchmark --attacks data/generated/atta
 
 ## Notes on Exact Paper Metrics
 
-The paper reports results from the authors' benchmark run over 1,000 generated attack samples and 500 benign samples. This public artifact includes the implementation, generator, representative samples, pretrained GNN weights, external benchmark adapters, and commands needed to regenerate benchmark-style datasets. Exact metric reproduction may still require the frozen benchmark snapshot and runtime configuration associated with a specific release.
+The paper reports results from the authors' benchmark run over 1,000 generated attack samples and 500 benign samples. This public artifact includes the implementation, generator, representative samples, pretrained GNN weights, external benchmark adapters, adaptive-evasion checks, and commands needed to regenerate benchmark-style datasets. Exact metric reproduction may still require the frozen benchmark snapshot and runtime configuration associated with a specific release.

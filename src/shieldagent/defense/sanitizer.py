@@ -1,6 +1,7 @@
 """Tool Response Sanitizer - Detects and neutralizes malicious content in tool outputs."""
 
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from typing import Optional
 from loguru import logger
@@ -22,6 +23,67 @@ class SanitizationPattern:
     attack_type: AttackType
     threat_level: ThreatLevel
     description: str
+
+
+ZERO_WIDTH_CHARS = re.compile(r"[\u200b\u200c\u200d\u2060\ufeff]")
+HOMOGLYPH_TRANSLATION = str.maketrans({
+    "а": "a",
+    "е": "e",
+    "і": "i",
+    "о": "o",
+    "р": "p",
+    "у": "y",
+    "ѕ": "s",
+})
+OBFUSCATABLE_KEYWORDS = (
+    "ignore",
+    "previous",
+    "prior",
+    "above",
+    "instructions",
+    "prompts",
+    "context",
+    "disregard",
+    "everything",
+    "reveal",
+    "system",
+    "prompt",
+    "developer",
+    "jailbreak",
+    "bypass",
+    "security",
+    "verification",
+    "sandbox",
+    "memory",
+    "execute",
+    "curl",
+    "wget",
+    "bash",
+    "sudo",
+    "base64",
+    "password",
+    "token",
+    "secret",
+    "credential",
+    "upload",
+    "transmit",
+    "webhook",
+)
+OBFUSCATED_KEYWORD_PATTERNS = [
+    (
+        re.compile(r"(?i)(?<![A-Za-z])" + r"[\s._-]*".join(map(re.escape, word)) + r"(?![A-Za-z])"),
+        word,
+    )
+    for word in OBFUSCATABLE_KEYWORDS
+]
+
+
+def _deobfuscate_keywords(content: str) -> str:
+    """Collapse simple character-separator evasion for known security keywords."""
+    normalized = content
+    for pattern, replacement in OBFUSCATED_KEYWORD_PATTERNS:
+        normalized = pattern.sub(replacement, normalized)
+    return normalized
 
 
 # Default patterns for prompt injection detection
@@ -585,14 +647,37 @@ class ToolResponseSanitizer:
             if pattern.search(content):
                 return True
         return False
+
+    def _scan_variants(self, content: str) -> list[str]:
+        """Generate normalized variants for common adaptive prompt-injection evasions."""
+        candidates = [
+            content,
+            unicodedata.normalize("NFKC", content),
+            ZERO_WIDTH_CHARS.sub("", content),
+            content.translate(HOMOGLYPH_TRANSLATION),
+        ]
+        candidates.extend(_deobfuscate_keywords(candidate) for candidate in list(candidates))
+
+        variants = []
+        seen = set()
+        for candidate in candidates:
+            if candidate not in seen:
+                seen.add(candidate)
+                variants.append(candidate)
+        return variants
     
     def scan(self, content: str) -> list[tuple[SanitizationPattern, re.Match]]:
         """Scan content for all matching patterns."""
         matches = []
+        seen = set()
         
-        for pattern, compiled in self._compiled_patterns:
-            for match in compiled.finditer(content):
-                matches.append((pattern, match))
+        for variant in self._scan_variants(content):
+            for pattern, compiled in self._compiled_patterns:
+                for match in compiled.finditer(variant):
+                    key = (pattern.name, match.group())
+                    if key not in seen:
+                        seen.add(key)
+                        matches.append((pattern, match))
         
         return matches
     
