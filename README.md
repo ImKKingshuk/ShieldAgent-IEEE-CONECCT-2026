@@ -93,4 +93,4 @@ shieldagent/
 
 ## License
 
-This artifact is released under the MIT License. See `LICENSE`.
+This artifact is released under the GNU General Public License v3.0 License. See `LICENSE`.
